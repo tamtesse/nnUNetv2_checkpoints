@@ -9,7 +9,7 @@
 \usepackage{geometry}
 \usepackage{float}
 \usepackage[backend=biber,style=numeric]{biblatex}
-\addbibresource{./references.bib}
+\addbibresource{./ref.bib}
 
 \geometry{
     a4paper,
@@ -33,6 +33,24 @@
 \section{Introduction}
 
 \section{Methodology}
+
+\subsection{Data Augmentation}
+\subsubsection{Data Balancing}
+\subsubsection{Data Alteration}
+%\subsubsection{Data Masking}
+
+\subsection{Custom Loss Function}
+We implemented a custom compound loss that takes a weighted combination of the Dice loss and the Cross-Entropy 
+(CE) loss. Dice loss is particularly popular for image segmentation tasks due to its robust nature even when applied
+imbalanced datasets. 
+
+CE is another commonly used metric that is used as a loss function for deep learning tasks. CE measures the difference
+measures the difference between two probability distributions for some random variable and can be formally denoted:
+
+\begin{equation}
+    \centering
+    ce = -\sum{}
+\end{equation}
 \section{Results}
 \section{Discussion}
 \printbibliography
