@@ -159,8 +159,6 @@ class hard_fine_tuning_loss(nn.Module):
             result = dc_loss
         return result
 
-
-
 class DC_and_BCE_loss(nn.Module):
     def __init__(self, bce_kwargs, soft_dice_kwargs, weight_ce=1, weight_dice=1, use_ignore_label: bool = False,
                  dice_class=MemoryEfficientSoftDiceLoss):
