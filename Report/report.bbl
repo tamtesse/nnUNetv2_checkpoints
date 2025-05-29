@@ -16,5 +16,82 @@
   {}
 \endgroup
 
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global}
+    \entry{MA2021102035}{article}{}
+      \name{author}{8}{}{%
+        {{hash=70d98ba727cc8114a6e494cf39de84a7}{%
+           family={Ma},
+           familyi={M\bibinitperiod},
+           given={Jun},
+           giveni={J\bibinitperiod}}}%
+        {{hash=c88629d37b2d9e6d8718d9baa089adef}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Jianan},
+           giveni={J\bibinitperiod}}}%
+        {{hash=3def5884a9a63894dec8b2df9dec6c0e}{%
+           family={Ng},
+           familyi={N\bibinitperiod},
+           given={Matthew},
+           giveni={M\bibinitperiod}}}%
+        {{hash=6914f2dac03de61fee76eecb36c759d1}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Rui},
+           giveni={R\bibinitperiod}}}%
+        {{hash=b0a63a9f832f00cc0a29c361a64c672e}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Yu},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=02821a48003406ef06e1ee4dfa9fca52}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Chen},
+           giveni={C\bibinitperiod}}}%
+        {{hash=6e12932fc7b339b5b18c3d7ae97ad303}{%
+           family={Yang},
+           familyi={Y\bibinitperiod},
+           given={Xiaoping},
+           giveni={X\bibinitperiod}}}%
+        {{hash=11b96c39beea8659d21c7c9541d1ef31}{%
+           family={Martel},
+           familyi={M\bibinitperiod},
+           given={Anne\bibnamedelima L.},
+           giveni={A\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+      }
+      \strng{namehash}{3155ae95e2a08e3264a653b8f400857c}
+      \strng{fullhash}{5572f90d6112823b8c0bdc279679aea8}
+      \strng{bibnamehash}{3155ae95e2a08e3264a653b8f400857c}
+      \strng{authorbibnamehash}{3155ae95e2a08e3264a653b8f400857c}
+      \strng{authornamehash}{3155ae95e2a08e3264a653b8f400857c}
+      \strng{authorfullhash}{5572f90d6112823b8c0bdc279679aea8}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{The loss function is an important component in deep learning-based segmentation methods. Over the past five years, many loss functions have been proposed for various segmentation tasks. However, a systematic study of the utility of these loss functions is missing. In this paper, we present a comprehensive review of segmentation loss functions in an organized manner. We also conduct the first large-scale analysis of 20 general loss functions on four typical 3D segmentation tasks involving six public datasets from 10+ medical centers. The results show that none of the losses can consistently achieve the best performance on the four segmentation tasks, but compound loss functions (e.g. Dice with TopK loss, focal loss, Hausdorff distance loss, and boundary loss) are the most robust losses. Our code and segmentation results are publicly available and can serve as a loss function benchmark. We hope this work will also provide insights on new loss function development for the community.}
+      \field{issn}{1361-8415}
+      \field{journaltitle}{Medical Image Analysis}
+      \field{title}{Loss odyssey in medical image segmentation}
+      \field{volume}{71}
+      \field{year}{2021}
+      \field{pages}{102035}
+      \range{pages}{1}
+      \verb{doi}
+      \verb https://doi.org/10.1016/j.media.2021.102035
+      \endverb
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/S1361841521000815
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/S1361841521000815
+      \endverb
+      \keyw{Segmentation,Loss function,Convolutional neural networks,Benchmark}
+    \endentry
+  \enddatalist
+\endrefsection
 \endinput
 

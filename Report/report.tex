@@ -39,7 +39,8 @@
 \subsubsection{Data Alteration}
 %\subsubsection{Data Masking}
 
-\subsection{Custom Loss Function}
+\subsection{Custom Loss Functions}
+\subsubsection{Dice and CE}
 We implemented a custom compound loss that takes a weighted combination of the Dice loss and the Cross-Entropy 
 (CE) loss. Dice loss is particularly popular for image segmentation tasks due to its robust nature even when applied
 imbalanced datasets. 
@@ -48,9 +49,26 @@ CE is another commonly used metric that is used as a loss function for deep lear
 measures the difference between two probability distributions for some random variable and can be formally denoted:
 
 \begin{equation}
-    \centering
-    ce = -\sum{}
+\mathcal{L}_{\mathrm{CrossEntropy}}(\mathbf{Y}, \hat{\mathbf{Y}}) = -w_{y_n} \log\frac{\exp(\mathbf{y}_{n, \hat{\mathbf{y}}})}{\sum_{c=1}^{C} \exp(\mathbf{y}_{n,c})} \cdot \hat{\mathbf{y}}_n,
 \end{equation}
+% https://docs.pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html
+where 
+
+\begin{align*}
+    \mathbf{Y}          &: \text{model output}, \\
+    \hat{\mathbf{Y}}    &: \text{target label}, \\
+    C                   &: \text{all different classes}, \\
+    w_{\mathbf{y}_n}    &: \text{weight}.
+\end{align*}
+
+
+\subsubsection{Dice and Focal}
+\citeauthor{MA2021102035} have shown that a compound loss, featuring a simple unweighted sum of the Dice as well as the 
+Focal loss, excells in performance in a range of 19 different (compound-) losses, for the task of pancreas segmentation.
+Therefore, we have implemented this loss function a well. We use the same dice loss as in %\ref{eq:dice}
+For the focal loss, we use the following equation:
+
+
 \section{Results}
 \section{Discussion}
 \printbibliography
