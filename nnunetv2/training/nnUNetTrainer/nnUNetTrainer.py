@@ -231,7 +231,7 @@ class nnUNetTrainer(object):
 
     def _do_i_compile(self):
         return ('nnUNet_compile' in os.environ.keys()) and (os.environ['nnUNet_compile'].lower() in ('true', '1', 't'))
-
+ 
     def _save_debug_information(self):
         # saving some debug information
         if self.local_rank == 0:
@@ -363,7 +363,7 @@ class nnUNetTrainer(object):
                                    {'batch_dice': self.configuration_manager.batch_dice,
                                     'do_bg': True, 'smooth': 1e-5, 'ddp': self.is_ddp},
                                    use_ignore_label=self.label_manager.ignore_label is not None,
-                                   dice_class=MemoryEfficientSoftDiceLoss)
+                                   dice_class=MemoryEfficientSoftDiceLoss, total_epochs = self.num_epochs, curr_epoch = self.current_epoch)
         else:
             loss = DC_and_CE_loss({'batch_dice': self.configuration_manager.batch_dice,
                                    'smooth': 1e-5, 'do_bg': False, 'ddp': self.is_ddp}, {}, weight_ce=1, weight_dice=1,
