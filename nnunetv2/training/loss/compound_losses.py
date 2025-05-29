@@ -60,7 +60,6 @@ class soft_fine_tuning_loss(nn.Module):
     def __init__(self, soft_dice_kwargs, ce_kwargs, weight_ce=1, weight_dice=1, ignore_label=None,
                  dice_class=SoftDiceLoss, total_epochs=1, curr_epoch=1):
         """
-        Weights for CE and Dice do not need to sum to one. You can set whatever you want.
         :param soft_dice_kwargs:
         :param ce_kwargs:
         :param aggregate:
