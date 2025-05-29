@@ -19,6 +19,48 @@
 
 \refsection{0}
   \datalist[entry]{nty/global//global/global}
+    \entry{customloss}{misc}{}
+      \name{author}{3}{}{%
+        {{hash=3cc53b54fe676a710b3b8ea0611464f0}{%
+           family={Galdran},
+           familyi={G\bibinitperiod},
+           given={Adrian},
+           giveni={A\bibinitperiod}}}%
+        {{hash=f3c9364ac5853f9a01f8892a5ce05ec5}{%
+           family={Carneiro},
+           familyi={C\bibinitperiod},
+           given={Gustavo},
+           giveni={G\bibinitperiod}}}%
+        {{hash=084bcebc2b1be581572226d54a194146}{%
+           family={Ballester},
+           familyi={B\bibinitperiod},
+           given={Miguel\bibnamedelimb Ángel\bibnamedelima González},
+           giveni={M\bibinitperiod\bibinitdelim Á\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+      }
+      \strng{namehash}{4e6eba9e6b39f1cc2b6a09ac03f53784}
+      \strng{fullhash}{4e6eba9e6b39f1cc2b6a09ac03f53784}
+      \strng{bibnamehash}{4e6eba9e6b39f1cc2b6a09ac03f53784}
+      \strng{authorbibnamehash}{4e6eba9e6b39f1cc2b6a09ac03f53784}
+      \strng{authornamehash}{4e6eba9e6b39f1cc2b6a09ac03f53784}
+      \strng{authorfullhash}{4e6eba9e6b39f1cc2b6a09ac03f53784}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.CV}
+      \field{eprinttype}{arXiv}
+      \field{title}{On the Optimal Combination of Cross-Entropy and Soft Dice Losses for Lesion Segmentation with Out-of-Distribution Robustness}
+      \field{year}{2022}
+      \verb{eprint}
+      \verb 2209.06078
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2209.06078
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2209.06078
+      \endverb
+    \endentry
     \entry{MA2021102035}{article}{}
       \name{author}{8}{}{%
         {{hash=70d98ba727cc8114a6e494cf39de84a7}{%
