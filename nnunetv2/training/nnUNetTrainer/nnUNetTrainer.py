@@ -149,6 +149,11 @@ class nnUNetTrainer(object):
         self.num_epochs = 1000
         self.current_epoch = 0
         self.enable_deep_supervision = True
+        
+        # Parameters for early stopping
+        self.es_patience     = 50
+        self.es_count        = 0
+        self.best_val_metric = -np.inf
 
         ### Dealing with labels/regions
         self.label_manager = self.plans_manager.get_label_manager(dataset_json)
@@ -1306,5 +1311,16 @@ class nnUNetTrainer(object):
                 self.on_validation_epoch_end(val_outputs)
 
             self.on_epoch_end()
+
+            # early stopping (parameters set in __init__())
+            curr_val = self.logger.my_fantastic_logging['val_losses'][-1]
+            if curr_val > self.best_val_metric:
+                self.best_val_metric = curr_val
+                self.es_count = 0
+            else:
+                self.es_count += 1
+            
+            if self.es_count > self.es_patience:
+                break
 
         self.on_train_end()
