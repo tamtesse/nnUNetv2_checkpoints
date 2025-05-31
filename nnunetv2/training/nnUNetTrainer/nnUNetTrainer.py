@@ -155,7 +155,7 @@ class nnUNetTrainer(object):
         self.enable_deep_supervision = True
         
         # Parameters for early stopping
-        self.es_patience     = 50
+        self.es_patience     = 50 #tunable, how many epochs without improvemnet do we allow before stopping?
         self.es_count        = 0
         self.best_val_metric = -np.inf
 
@@ -370,6 +370,7 @@ class nnUNetTrainer(object):
         if self.label_manager.has_regions:
             # replace the loss underneath here with either:
             # soft_fine_tuning_loss or hard_fine_tuning_loss (baseline used DC_and_BCE_loss)
+            # literature (see report) shows the most promising results with hard fine-tuning loss
             loss = hard_fine_tuning_loss({},
                                    {'batch_dice': self.configuration_manager.batch_dice,
                                     'do_bg': True, 'smooth': 1e-5, 'ddp': self.is_ddp},

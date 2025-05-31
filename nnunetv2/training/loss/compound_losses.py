@@ -1,6 +1,7 @@
 import torch
 from nnunetv2.training.loss.dice import SoftDiceLoss, MemoryEfficientSoftDiceLoss
 from nnunetv2.training.loss.robust_ce_loss import RobustCrossEntropyLoss, TopKLoss
+from nnunetv2.training.loss.focal_loss import FocalLoss
 from nnunetv2.utilities.helpers import softmax_helper_dim1
 from torch import nn
 
@@ -252,4 +253,44 @@ class DC_and_topk_loss(nn.Module):
             if self.weight_ce != 0 and (self.ignore_label is None or num_fg > 0) else 0
 
         result = self.weight_ce * ce_loss + self.weight_dice * dc_loss
+        return result
+
+
+class DC_and_Focal(nn.Module):
+    def __init__(self, focal_kwargs, soft_dice_kwargs, use_ignore_label: bool = False,
+                 dice_class=MemoryEfficientSoftDiceLoss):
+        """
+        DO NOT APPLY NONLINEARITY IN YOUR NETWORK!
+
+        target mut be one hot encoded
+        IMPORTANT: We assume use_ignore_label is located in target[:, -1]!!!
+
+        :param soft_dice_kwargs:
+        :param bce_kwargs:
+        :param aggregate:
+        """
+        super(DC_and_BCE_loss, self).__init__()
+
+        self.use_ignore_label = use_ignore_label
+
+        self.dc = dice_class(apply_nonlin=torch.sigmoid, **soft_dice_kwargs)
+        self.fc = FocalLoss(**focal_kwargs)
+
+    def forward(self, net_output: torch.Tensor, target: torch.Tensor):
+        if self.use_ignore_label:
+            # target is one hot encoded here. invert it so that it is True wherever we can compute the loss
+            mask = (1 - target[:, -1:]).bool()
+            # remove ignore channel now that we have the mask
+            target_regions = torch.clone(target[:, :-1])
+        else:
+            target_regions = target
+            mask = None
+
+        dc_loss = self.dc(net_output, target_regions, loss_mask=mask)
+        if mask is not None:
+            fc_loss = (self.fc(net_output, target_regions) * mask).sum() / torch.clip(mask.sum(), min=1e-8)
+        else:
+            fc_loss = self.fc(net_output, target_regions)
+            
+        result = fc_loss + dc_loss
         return result

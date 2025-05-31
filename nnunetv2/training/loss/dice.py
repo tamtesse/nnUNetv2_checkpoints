@@ -55,6 +55,10 @@ class SoftDiceLoss(nn.Module):
         return -dc
 
 
+
+
+
+
 class MemoryEfficientSoftDiceLoss(nn.Module):
     def __init__(self, apply_nonlin: Callable = None, batch_dice: bool = False, do_bg: bool = True, smooth: float = 1.,
                  ddp: bool = True):
