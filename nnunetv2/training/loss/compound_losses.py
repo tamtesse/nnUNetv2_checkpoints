@@ -56,7 +56,7 @@ class DC_and_CE_loss(nn.Module):
         result = self.weight_ce * ce_loss + self.weight_dice * dc_loss
         return result
 
-# 'Soft-fine tuning loss' as described in https://arxiv.org/abs/2209.06078
+# Our implementation of the 'Soft-fine tuning loss' as described in https://arxiv.org/abs/2209.06078
 class soft_fine_tuning_loss(nn.Module):
     def __init__(self, soft_dice_kwargs, ce_kwargs, weight_ce=1, weight_dice=1, ignore_label=None,
                  dice_class=SoftDiceLoss, total_epochs=1, curr_epoch=1):
@@ -105,10 +105,12 @@ class soft_fine_tuning_loss(nn.Module):
         ce_loss = self.ce(net_output, target[:, 0]) \
             if self.weight_ce != 0 and (self.ignore_label is None or num_fg > 0) else 0
 
+
+        # calculate the compound loss based on the curr_epoch and total_epochs
         result = (self.total_epochs-self.curr_epoch)/self.total_epochs * ce_loss + self.curr_epoch/self.total_epochs * dc_loss
         return result
 
-# 'hard fine tuning loss' as described in https://arxiv.org/abs/2209.06078
+# Our implementation of the 'hard fine tuning loss' as described in https://arxiv.org/abs/2209.06078
 class hard_fine_tuning_loss(nn.Module):
     def __init__(self, bce_kwargs, soft_dice_kwargs, weight_ce=1, weight_dice=1, use_ignore_label: bool = False,
                  dice_class=MemoryEfficientSoftDiceLoss, total_epochs=1, curr_epoch=1):
@@ -153,6 +155,8 @@ class hard_fine_tuning_loss(nn.Module):
         else:
             ce_loss = self.ce(net_output, target_regions)
         
+        # we here decide whether to use CE or DC loss based on the current epoch
+        # if we are in the first 90% of the training, we use CE loss, otherwise we use DC loss
         if self.curr_epoch < self.total_epochs / 90:
             result = ce_loss
         else:
@@ -255,7 +259,7 @@ class DC_and_topk_loss(nn.Module):
         result = self.weight_ce * ce_loss + self.weight_dice * dc_loss
         return result
 
-
+# Our implementatino of the DiceFocal loss as described in https://pubmed.ncbi.nlm.nih.gov/33813286/
 class DC_and_Focal(nn.Module):
     def __init__(self, soft_dice_kwargs, use_ignore_label: bool = False,
                  dice_class=MemoryEfficientSoftDiceLoss):
@@ -264,10 +268,6 @@ class DC_and_Focal(nn.Module):
 
         target mut be one hot encoded
         IMPORTANT: We assume use_ignore_label is located in target[:, -1]!!!
-
-        :param soft_dice_kwargs:
-        :param bce_kwargs:
-        :param aggregate:
         """
         super(DC_and_BCE_loss, self).__init__()
 

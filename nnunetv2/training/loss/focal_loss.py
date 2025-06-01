@@ -35,5 +35,6 @@ class FocalLoss(nn.Module):
             logpt = logpt * Variable(at)
 
         loss = -1 * (1-pt)**self.gamma * logpt
+        # return mean value of loss
         return loss.mean()
         
