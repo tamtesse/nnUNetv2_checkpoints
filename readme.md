@@ -24,6 +24,7 @@ nnUNetv2_train -d 114 2 -tr nnUNetTrainer_Loss_CE_checkpoints 3d_fullres --c
 nnUNetv2_train -d 114 3 -tr nnUNetTrainer_Loss_CE_checkpoints 3d_fullres --c
 nnUNetv2_train -d 114 4 -tr nnUNetTrainer_Loss_CE_checkpoints 3d_fullres --c
 ```
+---
 After all checkpoints for each fold have been generated, they are ensembled using the [Select_Best_Checkpoint_Training.ipynb](https://github.com/DIAGNijmegen/PANORAMA_baseline/blob/main/checkpoint_selection/Select_Best_Checkpoint_Training.ipynb) notebook from the baseline repository, which generates the final detection map.
 
 Our contributions to the code are indicated by the use of comment in the code itself. To provide some guidance, our contributions appear in the following files:
