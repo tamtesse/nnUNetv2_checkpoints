@@ -31,5 +31,5 @@ Our contributions to the code are indicated by the use of comment in the code it
 - ./nnUNetv2_checkpoints/nnunetv2/training/nnUNetTrainer/**nnUNetTrainer.py**
 - ./nnUNetv2_checkpoints/nnunetv2/training/lr_scheduler/**scheduler.py**
 - ./nnUNetv2_checkpoints/nnunetv2/training/loss/**focal_loss.py**
-- ./nnUNetv2_checkpoints/nnunetv2/training/loss/**compound_losses.py
-**
+- ./nnUNetv2_checkpoints/nnunetv2/training/loss/**compound_losses.py**
+
