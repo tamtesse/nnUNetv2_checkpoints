@@ -16,7 +16,7 @@ nnUNetv2_train -d 113 4 3d_fullres --c
 ```
 These commands will train task 113 (113 is the dataset ID chosen for the pancreas segmentation task, but can be anything).
 
-The second part of the pipeline is the PDAC detection model. As an initial step, the custom CropPancreasRoi() function from the baseline repository is used to crop all images to the region of interest: the pancreas. Furthermore, the custom [customTrainerCEcheckpoints.py](customTrainerCEcheckpoints.py) file from the baseline repository is copied into the nnU-Net trainer folder. All other dependencies can be installed by changing directory to this repository's folder locally, then running `pip install -e .`. Again, the preprocessing command is run for this task: `nnUNetv2_plan_and_preprocess -d 114 --verify_dataset-integrity`. Finally, this model can also be trained with similar commands:
+The second part of the pipeline is the PDAC detection model. As an initial step, the custom CropPancreasRoi() function from the baseline repository is used to crop all images to the region of interest: the pancreas. Furthermore, the custom [nnunetv2/training/nnUNettrainer/customTrainerCEcheckpoints.py](customTrainerCEcheckpoints.py) file from the baseline repository is copied into the nnU-Net trainer folder. All other dependencies can be installed by changing directory to this repository's folder locally, then running `pip install -e .`. Again, the preprocessing command is run for this task: `nnUNetv2_plan_and_preprocess -d 114 --verify_dataset-integrity`. Finally, this model can also be trained with similar commands:
 ```
 nnUNetv2_train -d 114 0 -tr nnUNetTrainer_Loss_CE_checkpoints 3d_fullres --c
 nnUNetv2_train -d 114 1 -tr nnUNetTrainer_Loss_CE_checkpoints 3d_fullres --c
