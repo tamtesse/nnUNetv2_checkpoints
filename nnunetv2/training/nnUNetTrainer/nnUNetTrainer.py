@@ -47,10 +47,14 @@ from nnunetv2.training.dataloading.data_loader_3d import nnUNetDataLoader3D
 from nnunetv2.training.dataloading.nnunet_dataset import nnUNetDataset
 from nnunetv2.training.dataloading.utils import get_case_identifiers, unpack_dataset
 from nnunetv2.training.logging.nnunet_logger import nnUNetLogger
-from nnunetv2.training.loss.compound_losses import DC_and_CE_loss, DC_and_BCE_loss
+from nnunetv2.training.loss.compound_losses import DC_and_CE_loss, DC_and_Focal #DC_and_BCE_loss, soft_fine_tuning_loss, hard_fine_tuning_loss
 from nnunetv2.training.loss.deep_supervision import DeepSupervisionWrapper
 from nnunetv2.training.loss.dice import get_tp_fp_fn_tn, MemoryEfficientSoftDiceLoss
-from nnunetv2.training.lr_scheduler.polylr import PolyLRScheduler
+from nnunetv2.training.lr_scheduler.polylr import PolyLRScheduler 
+
+# our implementation of warm restart LR scheduler
+from nnunetv2.training.lr_scheduler.scheduler import PolyWarmRestartLRScheduler
+
 from nnunetv2.utilities.collate_outputs import collate_outputs
 from nnunetv2.utilities.crossval_split import generate_crossval_split
 from nnunetv2.utilities.default_n_proc_DA import get_allowed_n_proc_DA
@@ -149,6 +153,11 @@ class nnUNetTrainer(object):
         self.num_epochs = 1000
         self.current_epoch = 0
         self.enable_deep_supervision = True
+        
+        # Parameters for early stopping
+        self.es_patience     = 50 #tunable, how many epochs without improvemnet do we allow before stopping?
+        self.es_count        = 0
+        self.best_val_metric = -np.inf
 
         ### Dealing with labels/regions
         self.label_manager = self.plans_manager.get_label_manager(dataset_json)
@@ -231,7 +240,7 @@ class nnUNetTrainer(object):
 
     def _do_i_compile(self):
         return ('nnUNet_compile' in os.environ.keys()) and (os.environ['nnUNet_compile'].lower() in ('true', '1', 't'))
-
+ 
     def _save_debug_information(self):
         # saving some debug information
         if self.local_rank == 0:
@@ -359,7 +368,11 @@ class nnUNetTrainer(object):
 
     def _build_loss(self):
         if self.label_manager.has_regions:
-            loss = DC_and_BCE_loss({},
+            # possibly replace the loss underneath here with either:
+            # soft_fine_tuning_loss or hard_fine_tuning_loss (these need self.curr_epoch and self.total_epochs) 
+            # (baseline used DC_and_BCE_loss here)
+            # literature (see report) shows the most promising results with hard fine-tuning loss
+            loss = DC_and_Focal({},
                                    {'batch_dice': self.configuration_manager.batch_dice,
                                     'do_bg': True, 'smooth': 1e-5, 'ddp': self.is_ddp},
                                    use_ignore_label=self.label_manager.ignore_label is not None,
@@ -486,6 +499,7 @@ class nnUNetTrainer(object):
     def configure_optimizers(self):
         optimizer = torch.optim.SGD(self.network.parameters(), self.initial_lr, weight_decay=self.weight_decay,
                                     momentum=0.99, nesterov=True)
+        #lr_scheduler = PolyLRScheduler(optimizer, self.initial_lr, self.num_epochs)
         lr_scheduler = PolyLRScheduler(optimizer, self.initial_lr, self.num_epochs)
         return optimizer, lr_scheduler
 
@@ -1304,5 +1318,16 @@ class nnUNetTrainer(object):
                 self.on_validation_epoch_end(val_outputs)
 
             self.on_epoch_end()
+
+            # early stopping (parameters set in __init__())
+            curr_val = self.logger.my_fantastic_logging['val_losses'][-1]
+            if curr_val > self.best_val_metric:
+                self.best_val_metric = curr_val
+                self.es_count = 0
+            else:
+                self.es_count += 1
+            
+            if self.es_count > self.es_patience:
+                break
 
         self.on_train_end()
