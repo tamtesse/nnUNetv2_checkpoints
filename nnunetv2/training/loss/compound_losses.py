@@ -257,7 +257,7 @@ class DC_and_topk_loss(nn.Module):
 
 
 class DC_and_Focal(nn.Module):
-    def __init__(self, focal_kwargs, soft_dice_kwargs, use_ignore_label: bool = False,
+    def __init__(self, soft_dice_kwargs, use_ignore_label: bool = False,
                  dice_class=MemoryEfficientSoftDiceLoss):
         """
         DO NOT APPLY NONLINEARITY IN YOUR NETWORK!
@@ -274,7 +274,7 @@ class DC_and_Focal(nn.Module):
         self.use_ignore_label = use_ignore_label
 
         self.dc = dice_class(apply_nonlin=torch.sigmoid, **soft_dice_kwargs)
-        self.fc = FocalLoss(**focal_kwargs)
+        self.fc = FocalLoss()
 
     def forward(self, net_output: torch.Tensor, target: torch.Tensor):
         if self.use_ignore_label:
